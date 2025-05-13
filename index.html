@@ -17,7 +17,7 @@
       resElt.textContent = '⏳ Transcription en cours...';
 
       try {
-        const res = await fetch('https://youtube-transcript-api-3rty.onrender.com/transcribe', {
+        const res = await fetch('https://youtube-transcript-api.onrender.com/transcribe', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ url })
