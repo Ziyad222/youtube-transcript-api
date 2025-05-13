@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Générateur de Transcription</title>
+</head>
+<body>
+  <h1>🎙️ Générateur de Transcription YouTube</h1>
+  <input type="text" id="urlInput" placeholder="Collez le lien YouTube ici" size="60">
+  <button onclick="transcrire()">Transcrire</button>
+  <pre id="resultat"></pre>
+
+  <script>
+    async function transcrire() {
+      const url = document.getElementById('urlInput').value;
+      const resElt = document.getElementById('resultat');
+      resElt.textContent = '⏳ Transcription en cours...';
+
+      try {
+        const res = await fetch('https://youtube-transcript-api-3rty.onrender.com/transcribe', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ url })
+        });
+
+        const data = await res.json();
+        if (res.ok) {
+          resElt.textContent = data.transcript.join('\n');
+        } else {
+          resElt.textContent = `❌ Erreur : ${data.error || 'Erreur inconnue'}`;
+        }
+      } catch (err) {
+        resElt.textContent = `❌ Erreur de réseau : ${err.message}`;
+      }
+    }
+  </script>
+</body>
+</html>
